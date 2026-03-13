@@ -53,7 +53,7 @@
             @auth
                 <x-desktop-user-menu class="hidden lg:block" :name="auth()->user()->name" />
             @else
-                <flux:sidebar.item icon="arrow-right-start-on-rectangle" :href="route('login')" wire:navigate>
+                <flux:sidebar.item icon="user" :href="route('login')" wire:navigate>
                     {{ __('Login') }}
                 </flux:sidebar.item>
             @endauth
