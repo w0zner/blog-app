@@ -1,28 +1,30 @@
 <x-layouts::admin>
-    <flux:card class="space-y-8">
-        <div>
-            <flux:heading size="lg">Categorías</flux:heading>
-            <flux:text class="mt-2"></flux:text>
-        </div>
-        <div class="space-y-6">
+    <div class="max-w-2xl mx-auto">
+        <flux:card>
+            <div>
+                <flux:heading size="lg">Categorías</flux:heading>
+                <flux:subheading>Crea una nueva categoría para organizar tus posteos.</flux:subheading>
+            </div>
+
+            <flux:separator variant="subtle" class="my-6" />
+
             <form action="{{ route('admin.categories.store') }}" method="POST">
                 @csrf
-                
-                <flux:field class=" mb-2">
-                    <flux:label>Nombre</flux:label>
 
-                    <flux:input name="name" required autofocus />
+                <flux:field class="mb-4">
+                    <flux:label>Nombre de la categoría</flux:label>
 
-                    <flux:error name="username" />
+                    <flux:input name="name" placeholder="Nombre de la categoría..." required autofocus value="{{ old('name') }}"/>
+
+                    <flux:error name="name" />
                 </flux:field>
-                
-                <flux:button type="submit" variant="primary" icon="plus">Crear Categoría</flux:button>
-            </form>
-        </div>
-        
-    </flux:card>
 
-    
+                <div class="flex justify-end">
+                    <flux:button type="submit" variant="primary" icon="plus">Crear categoría</flux:button>
+                </div>
+            </form>
+        </flux:card>
+    </div>
 </x-layouts::admin>
 
 
