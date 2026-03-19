@@ -34,6 +34,9 @@
                     <flux:sidebar.item icon="home" :href="route('admin.dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </flux:sidebar.item>
+                     <flux:sidebar.item icon="list-bullet" :href="route('admin.categories.index')" :current="request()->routeIs('admin.categories.*')" wire:navigate>
+                        {{ __('Categorías') }}
+                    </flux:sidebar.item>
                 </flux:sidebar.group>
             </flux:sidebar.nav>
 
