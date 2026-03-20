@@ -19,6 +19,9 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
+        {{-- SweetAlert2 CDN --}}
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @fluxAppearance
     </head>
@@ -34,7 +37,10 @@
                     <flux:sidebar.item icon="home" :href="route('admin.dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </flux:sidebar.item>
-                     <flux:sidebar.item icon="list-bullet" :href="route('admin.categories.index')" :current="request()->routeIs('admin.categories.*')" wire:navigate>
+                    <flux:sidebar.item icon="newspaper" :href="route('admin.posts.index')" :current="request()->routeIs('admin.posts.*')" wire:navigate>
+                        {{ __('Posts') }}
+                    </flux:sidebar.item>
+                    <flux:sidebar.item icon="list-bullet" :href="route('admin.categories.index')" :current="request()->routeIs('admin.categories.*')" wire:navigate>
                         {{ __('Categorías') }}
                     </flux:sidebar.item>
                 </flux:sidebar.group>
@@ -126,5 +132,11 @@
         </flux:main>
 
         @fluxScripts
+
+        @if(session()->has("swal"))
+            <script>
+                Swal.fire(@json(session('swal')));
+            </script>
+        @endif
     </body>
 </html>

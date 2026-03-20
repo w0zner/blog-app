@@ -26,7 +26,7 @@
                         <div class="flex gap-2">
                             <flux:button :href="route('admin.categories.edit', $category)" size="sm" variant="subtle" icon="pencil-square" />
 
-                            <form action="{{ route('admin.categories.destroy', $category) }}" method="POST" onsubmit="return confirm('¿Estás seguro?')">
+                            <form action="{{ route('admin.categories.destroy', $category) }}" method="POST" onsubmit="confirmDelete(event)">
                                 @csrf
                                 @method('DELETE')
                                 <flux:button type="submit" size="sm" variant="subtle" icon="trash" color="danger"/>
@@ -37,6 +37,31 @@
             @endforeach
         </flux:table.rows>
     </flux:table>
+
+    <script>
+        function confirmDelete(event) {
+            event.preventDefault(); // Evita el envío del formulario
+
+             Swal.fire({
+                title: "Confirmación",
+                text: "¿Estás seguro de eliminar esta categoría?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                cancelButtonText: "Cancelar",
+                confirmButtonText: "Sí, eliminar!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    event.target.submit(); // Envía el formulario si se confirma
+
+
+                }
+            });
+        }
+
+    </script>
+
 </x-layouts::admin>
 
 

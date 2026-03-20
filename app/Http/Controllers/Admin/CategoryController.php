@@ -14,7 +14,7 @@ class CategoryController extends Controller
     public function index()
     {
 
-        $categories = Category::latest()->get();
+        $categories = Category::latest()->get(); //Category::orderBy('created_at', 'desc')->get();
 
         return view('admin.categories.index', compact('categories'));
     }
@@ -32,13 +32,19 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'name' => 'required|max:255|unique:categories,name',
         ]);
 
-        Category::create($request->all());
+        Category::create($data);
 
-        return redirect()->route('admin.categories.index')->with('success', 'Categoría creada con éxito.');
+        session()->flash('swal', [
+            'icon' => 'success',
+            'title' => 'Categoría creada con éxito',
+            'text' => 'La nueva categoría ha sido agregada.',
+        ]);
+
+        return redirect()->route('admin.categories.index');
     }
 
     /**
@@ -54,7 +60,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('admin.categories.edit', compact('category'));
     }
 
     /**
@@ -62,7 +68,19 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|max:255|unique:categories,name,' . $category->id,
+        ]);
+
+        $category->update($data);
+
+        session()->flash('swal', [
+            'icon' => 'success',
+            'title' => 'Categoría actualizada con éxito',
+            'text' => 'La categoría ha sido actualizada.',
+        ]);
+
+        return redirect()->route('admin.categories.index');
     }
 
     /**
@@ -72,6 +90,12 @@ class CategoryController extends Controller
     {
         $category->delete();
 
-        return redirect()->route('admin.categories.index')->with('success', 'Categoría eliminada con éxito.');
+        session()->flash('swal', [
+            'icon' => 'success',
+            'title' => 'Categoría eliminada con éxito',
+            'text' => 'La categoría ha sido eliminada.',
+        ]);
+
+        return redirect()->route('admin.categories.index');
     }
 }
