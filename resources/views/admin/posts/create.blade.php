@@ -23,7 +23,7 @@
                 <flux:field class="mb-4">
                     <flux:label>Titulo del post</flux:label>
 
-                    <flux:input name="title" placeholder="Titulo del post..." required autofocus value="{{ old('title') }}"/>
+                    <flux:input name="title" id="title" placeholder="Titulo del post..." oninput="string_to_slug(this.value, '#slug')" required autofocus value="{{ old('title') }}"/>
 
                     <flux:error name="title" />
                 </flux:field>
@@ -31,7 +31,7 @@
                 <flux:field class="mb-4">
                     <flux:label>Slug</flux:label>
 
-                    <flux:input name="slug" placeholder="Slug del post..." required autofocus value="{{ old('slug') }}"/>
+                    <flux:input name="slug" id="slug" placeholder="Slug del post..." required autofocus value="{{ old('slug') }}"/>
 
                     <flux:error name="slug" />
                 </flux:field>
@@ -39,7 +39,7 @@
                 <flux:field class="mb-4">
                     <flux:label>Categoías</flux:label>
 
-                    <flux:select size="sm" placeholder="Elige una categoría...">
+                    <flux:select size="sm" name="category_id" placeholder="Elige una categoría...">
                         @foreach ($categories as $category)
                             <flux:select.option value="{{ $category->id }}">{{ $category->name }}</flux:select.option>
                         @endforeach
@@ -54,6 +54,12 @@
             </form>
         </flux:card>
     </div>
+
+    @push('js')
+        <script>
+
+        </script>
+    @endpush
 </x-layouts::admin>
 
 

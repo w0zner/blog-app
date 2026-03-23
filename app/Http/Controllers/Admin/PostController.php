@@ -32,7 +32,24 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:posts,slug',
+            'content' => 'required|string',
+            'category_id' => 'required|exists:categories,id',
+        ]);
+
+        $validated['user_id'] = auth()->id();
+
+        $post = Post::create($validated);
+
+        session()->flash('swal', [
+            'icon' => 'success',
+            'title' => 'Post creado con éxito',
+            'text' => 'El nuevo post ha sido agregado.',
+        ]);
+
+        return redirect()->route('admin.posts.edit', $post);
     }
 
     /**
