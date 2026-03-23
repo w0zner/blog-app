@@ -139,6 +139,6 @@
             </script>
         @endif
 
-        @stack('js')
+        {{-- @stack('js') --}}
     </body>
 </html>

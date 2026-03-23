@@ -55,11 +55,11 @@
         </flux:card>
     </div>
 
-    @push('js')
+    {{-- @push('js')
         <script>
 
         </script>
-    @endpush
+    @endpush --}}
 </x-layouts::admin>
 
 

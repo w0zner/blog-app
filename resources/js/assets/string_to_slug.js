@@ -1,4 +1,4 @@
-function string_to_slug(str, querySelector){
+window.string_to_slug = function(str, querySelector){
     // Eliminar espacios al inicio y final
     str = str.replace(/^\s+|\s+$/g, '');
 
