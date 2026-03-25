@@ -14,7 +14,7 @@ class CategoryController extends Controller
     public function index()
     {
 
-        $categories = Category::latest()->get(); //Category::orderBy('created_at', 'desc')->get();
+        $categories = Category::latest()->get(); // Category::orderBy('created_at', 'desc')->get();
 
         return view('admin.categories.index', compact('categories'));
     }
@@ -69,7 +69,7 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $data = $request->validate([
-            'name' => 'required|max:255|unique:categories,name,' . $category->id,
+            'name' => 'required|max:255|unique:categories,name,'.$category->id,
         ]);
 
         $category->update($data);
