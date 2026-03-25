@@ -32,10 +32,9 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'slug' => 'required|string|max:255|unique:posts,slug',
-            'content' => 'required|string',
             'category_id' => 'required|exists:categories,id',
         ]);
 
@@ -47,6 +46,7 @@ class PostController extends Controller
             'icon' => 'success',
             'title' => 'Post creado con éxito',
             'text' => 'El nuevo post ha sido agregado.',
+            'theme' => 'auto',
         ]);
 
         return redirect()->route('admin.posts.edit', $post);
@@ -65,7 +65,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+         $categories = Category::all();
+        return view('admin.posts.edit', compact('post', 'categories'));
     }
 
     /**
@@ -73,7 +74,27 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:posts,slug,' . $post->id,
+            'category_id' => 'required|exists:categories,id',
+            'excerpt' => 'required_if:is_published,1|string',
+            'content' => 'required_if:is_published,1|string',
+            'is_published' => 'boolean',
+        ]);
+
+        $validated['user_id'] = auth()->id();
+
+        $post->update($validated);
+
+        session()->flash('swal', [
+            'icon' => 'success',
+            'title' => 'Post actualizado con éxito',
+            'text' => 'El post ha sido actualizado.',
+            'theme' => 'auto',
+        ]);
+
+        return redirect()->route('admin.posts.edit', $post);
     }
 
     /**
@@ -82,5 +103,27 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         //
+    }
+
+    public function publish(Post $post)
+    {
+
+        if($post->is_published == 0 && ! $post->published_at) {
+            $post->published_at = now();
+        }
+
+        $post->update(['is_published' => ! $post->is_published]);
+
+        session()->flash('swal-flash', [
+            'position' => 'top-end',
+            'icon' => 'success',
+            'title' => 'Estado de publicación actualizado',
+            'text' => 'El post \'' . $post->slug . '\' se ha sido actualizado como ' . ($post->is_published ? 'PUBLICADO' : 'NO PUBLICADO') . '.',
+            'showConfirmButton' => false,
+            'timer' => 1500,
+            'theme' => 'auto',
+        ]);
+
+        return redirect()->route('admin.posts.index', $post);
     }
 }

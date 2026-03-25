@@ -42,6 +42,7 @@ class CategoryController extends Controller
             'icon' => 'success',
             'title' => 'Categoría creada con éxito',
             'text' => 'La nueva categoría ha sido agregada.',
+            'theme' => 'auto',
         ]);
 
         return redirect()->route('admin.categories.index');
@@ -78,6 +79,7 @@ class CategoryController extends Controller
             'icon' => 'success',
             'title' => 'Categoría actualizada con éxito',
             'text' => 'La categoría ha sido actualizada.',
+            'theme' => 'auto',
         ]);
 
         return redirect()->route('admin.categories.index');
@@ -94,6 +96,7 @@ class CategoryController extends Controller
             'icon' => 'success',
             'title' => 'Categoría eliminada con éxito',
             'text' => 'La categoría ha sido eliminada.',
+            'theme' => 'auto',
         ]);
 
         return redirect()->route('admin.categories.index');

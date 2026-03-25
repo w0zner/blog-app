@@ -23,17 +23,20 @@
                     <flux:table.cell>{{ $post->id }}</flux:table.cell>
                     <flux:table.cell class="font-medium">{{ $post->title }}</flux:table.cell>
                     <flux:table.cell>
-                        @if ($post->is_published)
-                            {{-- <flux:badge color="green">Sí</flux:badge> --}}
-                            <flux:button type="submit" size="sm" variant="primary" color="emerald">
-                                Si
-                            </flux:button>
-                        @else
-                            {{-- <flux:badge color="red">No</flux:badge> --}}
-                            <flux:button type="submit" size="sm" variant="filled" color="red">
-                                No
-                            </flux:button>
-                        @endif
+                        <form action="{{route('admin.posts.publish', $post)}}" method="POST" onsubmit="confirmPublish(event)">
+                            @csrf
+                            @method('PATCH')
+
+                            @if ($post->is_published)
+                                <flux:button type="submit" size="sm" variant="primary" color="emerald" style="cursor: pointer;">
+                                    Si
+                                </flux:button>
+                            @else
+                                <flux:button type="submit" size="sm" variant="filled" color="red" style="cursor: pointer;">
+                                    No
+                                </flux:button>
+                            @endif
+                        </form>
                     </flux:table.cell>
                     {{-- <flux:table.cell>{{ $post->created_at->format('d/m/Y H:i') }}</flux:table.cell> --}}
                     <flux:table.cell>
@@ -43,7 +46,7 @@
                             <form action="{{ route('admin.posts.destroy', $post) }}" method="POST" onsubmit="confirmDelete(event)">
                                 @csrf
                                 @method('DELETE')
-                                <flux:button type="submit" size="sm" variant="subtle" icon="trash" color="danger"/>
+                                <flux:button type="submit" size="sm" variant="subtle" icon="trash" color="danger" style="cursor: pointer;"/>
                             </form>
                         </div>
                     </flux:table.cell>
@@ -69,12 +72,33 @@
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
                 cancelButtonText: "Cancelar",
-                confirmButtonText: "Sí, eliminar!"
+                confirmButtonText: "Sí, eliminar!",
+                theme: "auto"
             }).then((result) => {
                 if (result.isConfirmed) {
                     event.target.submit(); // Envía el formulario si se confirma
 
 
+                }
+            });
+        }
+
+        function confirmPublish(event) {
+            event.preventDefault(); // Evita el envío del formulario
+
+             Swal.fire({
+                title: "Confirmación",
+                text: "¿Quieres cambiar el estado de este post?",
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                cancelButtonText: "No",
+                confirmButtonText: "Sí!",
+                theme: "auto"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    event.target.submit(); // Envía el formulario si se confirma
                 }
             });
         }

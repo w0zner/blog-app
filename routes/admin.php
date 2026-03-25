@@ -10,4 +10,6 @@ Route::get('/', function () {
 
 Route::resource('categories', CategoryController::class);
 
+Route::patch('posts/{post}/publish', [PostController::class, 'publish'])->name('posts.publish');
+
 Route::resource('posts', PostController::class);

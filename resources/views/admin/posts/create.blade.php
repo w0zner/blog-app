@@ -8,7 +8,7 @@
         </flux:breadcrumbs>
 
     </div>
-    <div class="max-w-2xl mx-auto">
+    <div class="max-w-5xl mx-auto">
         <flux:card>
             <div>
                 <flux:heading size="lg">Post</flux:heading>
@@ -41,12 +41,14 @@
 
                     <flux:select size="sm" name="category_id" placeholder="Elige una categoría...">
                         @foreach ($categories as $category)
-                            <flux:select.option value="{{ $category->id }}">{{ $category->name }}</flux:select.option>
+                            <flux:select.option value="{{ $category->id }}" :selected="$category->id == old('category_id')">{{ $category->name }}</flux:select.option>
                         @endforeach
                     </flux:select>
 
                     <flux:error name="slug" />
                 </flux:field>
+
+
 
                 <div class="flex justify-end">
                     <flux:button type="submit" variant="primary" icon="plus">Crear post</flux:button>

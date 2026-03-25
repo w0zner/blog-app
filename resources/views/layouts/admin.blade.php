@@ -138,6 +138,12 @@
                 Swal.fire(@json(session('swal')));
             </script>
         @endif
+        @if(session()->has("swal-flash"))
+            <script>
+                Swal.fire(@json(session('swal-flash')));
+            </script>
+        @endif
+
 
         {{-- @stack('js') --}}
     </body>
