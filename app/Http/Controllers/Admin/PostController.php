@@ -42,13 +42,6 @@ class PostController extends Controller
 
         $post = Post::create($validated);
 
-        session()->flash('swal', [
-            'icon' => 'success',
-            'title' => 'Post creado con éxito',
-            'text' => 'El nuevo post ha sido agregado.',
-            'theme' => 'auto',
-        ]);
-
         return redirect()->route('admin.posts.edit', $post);
     }
 
@@ -87,13 +80,6 @@ class PostController extends Controller
 
         $post->update($validated);
 
-        session()->flash('swal', [
-            'icon' => 'success',
-            'title' => 'Post actualizado con éxito',
-            'text' => 'El post ha sido actualizado.',
-            'theme' => 'auto',
-        ]);
-
         return redirect()->route('admin.posts.edit', $post);
     }
 
@@ -107,7 +93,6 @@ class PostController extends Controller
 
     public function publish(Post $post)
     {
-
         if($post->is_published == 0 && ! $post->published_at) {
             $post->published_at = now();
         }
