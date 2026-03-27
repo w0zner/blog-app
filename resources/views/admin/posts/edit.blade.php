@@ -2,7 +2,8 @@
 
     @push('css')
         <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
-        <style>
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        {{-- <style>
             .ql-toolbar.ql-snow, .ql-container.ql-snow {
             background-color: #232323;
             color: #fff;
@@ -25,7 +26,8 @@
                 color: #ffffff !important;
                 background-color: #5c5c5c;
             }
-        </style>
+
+        </style> --}}
     @endpush
 
     <div class="flex items-center justify-between mb-6">
@@ -113,6 +115,18 @@
                     </flux:field> --}}
 
                     <div class="mb-4">
+                        <p class="font-medium text-sm mb-1">Etiquetas</p>
+
+                        <select id="tags" name="tags[]" class="w-full rounded border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" multiple="multiple">
+                            @foreach($tags as $tag)
+                                <option value="{{$tag->id}}" >
+                                    {{$tag->name}}
+                                </option>    
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="mb-4">
                         <p class="font-medium text-sm mb-1">Contenido</p>
                         <div id="editor" class="mb-4">
                             {!! old('content', $post->content) !!}
@@ -143,6 +157,25 @@
 
     @push("js")
         <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+
+        <script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous">
+        </script>
+
+        <script>
+             $(document).ready(function() {
+                $('#tags').select2({
+                    tags: true
+                });
+            });
+
+            $('#mySelect').select2({
+    theme: 'bootstrap-5' // This will inherit colors if your wrapper is dark
+});
+
+
+        </script>
+
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script>
             const quill = new Quill('#editor', {
                 theme: 'snow'
