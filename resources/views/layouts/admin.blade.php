@@ -146,6 +146,20 @@
             </script>
         @endif
 
+        @if ($errors->any())
+            <script>
+                Swal.fire({
+                    title: 'Oops..',
+                    icon: 'error',
+                    html: `<ul class="text-left list-disc list-inside">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>`,
+                });
+            </script>
+        @endif
+
 
         @stack('js')
     </body>

@@ -119,9 +119,9 @@
 
                         <select id="tags" name="tags[]" class="w-full rounded border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" multiple="multiple">
                             @foreach($tags as $tag)
-                                <option value="{{$tag->id}}" >
+                                <option value="{{$tag->name}}" @selected(in_array($tag->name, old('tags', $post->tags->pluck('name')->toArray())))>
                                     {{$tag->name}}
-                                </option>    
+                                </option>
                             @endforeach
                         </select>
                     </div>

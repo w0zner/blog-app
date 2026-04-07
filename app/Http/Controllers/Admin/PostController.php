@@ -59,6 +59,9 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        /* $tags = $post->tags->pluck('id')->toArray();
+        $response = in_array(1, $tags);*/
+
          $categories = Category::all();
          $tags = Tag::all();
 
@@ -76,12 +79,22 @@ class PostController extends Controller
             'category_id' => 'required|exists:categories,id',
             'excerpt' => 'required_if:is_published,1|string',
             'content' => 'required_if:is_published,1|string',
+            'tags' => 'array',
             'is_published' => 'boolean',
         ]);
 
         $validated['user_id'] = auth()->id();
 
         $post->update($validated);
+
+        $tags = [];
+
+        foreach($request->tags ?? [] as $tag) {
+            $tags[] = Tag::firstOrCreate(['name' => $tag]);
+            //$tags[] = $tag->id;
+        }
+
+        $post->tags()->sync($tags);
 
         return redirect()->route('admin.posts.edit', $post);
     }
