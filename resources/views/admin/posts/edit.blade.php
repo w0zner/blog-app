@@ -67,18 +67,21 @@
                     <flux:field class="mb-4">
                         <flux:label>Titulo del post</flux:label>
 
-                        <flux:input name="title" id="title" placeholder="Titulo del post..." oninput="string_to_slug(this.value, '#slug')" required autofocus value="{{ old('title', $post->title) }}"/>
+                        <flux:input name="title" id="title" placeholder="Titulo del post..." oninput="string_to_slug(this.value, '#slug')"  autofocus value="{{ old('title', $post->title) }}"/>
 
                         <flux:error name="title" />
                     </flux:field>
 
-                    <flux:field class="mb-4">
-                        <flux:label>Slug</flux:label>
+                    @if(!$post->published_at)
+                       <flux:field class="mb-4">
+                            <flux:label>Slug</flux:label>
 
-                        <flux:input name="slug" id="slug" placeholder="Slug del post..." required autofocus value="{{ old('slug', $post->slug) }}"/>
+                            <flux:input name="slug" id="slug" placeholder="Slug del post..."  autofocus value="{{ old('slug', $post->slug) }}"/>
 
-                        <flux:error name="slug" />
-                    </flux:field>
+                            <flux:error name="slug" />
+                        </flux:field>
+                    @endif
+
 
                     <flux:field class="mb-4">
                         <flux:label>Categoías</flux:label>
