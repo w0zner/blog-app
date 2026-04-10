@@ -7,6 +7,10 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
+
 
 class PostController extends Controller
 {
@@ -75,13 +79,32 @@ class PostController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'slug' => 'required|string|max:255|unique:posts,slug,' . $post->id,
+            /*'slug' => 'required|string|max:255|unique:posts,slug,' . $post->id,*/
+
+            'slug' => [
+                //Rule::unique('posts', 'slug')->ignore($post->id),
+                Rule::requiredIf(function() use ($request, $post) {
+                    return !$post->published_at;
+                }),
+                'string',
+                'max:255',
+                'unique:posts,slug,' . $post->id,
+            ],
+            'image' => 'nullable|image|max:2048',
             'category_id' => 'required|exists:categories,id',
             'excerpt' => 'required_if:is_published,1|string',
             'content' => 'required_if:is_published,1|string',
             'tags' => 'array',
             'is_published' => 'boolean',
         ]);
+
+        if($request->hasFile('image')) {
+            if($post->image_path) {
+                Storage::disk('public')->delete($post->image_path);
+            }
+
+            $validated['image_path'] = Storage::disk('public')->put('posts', $request->image);
+        }
 
         $validated['user_id'] = auth()->id();
 

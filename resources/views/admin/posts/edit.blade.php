@@ -26,7 +26,6 @@
                 color: #ffffff !important;
                 background-color: #5c5c5c;
             }
-
         </style> --}}
     @endpush
 
@@ -48,40 +47,38 @@
 
             <flux:separator variant="subtle" class="my-6" />
 
-            <form action="{{ route('admin.posts.update', $post) }}" method="POST">
+            <form action="{{ route('admin.posts.update', $post) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
                 <div class="relative flex justify-center mb-2">
-                    <img src="https://t3.ftcdn.net/jpg/10/22/24/80/360_F_1022248039_7LDxHRi3Mlt9BK3wzLBUGZp9XAO1gt2s.jpg" id="imgPreview"  alt="" class="w-full h-100 object-cover rounded object-centermb-6">
+                    <img src="{{ $post->image_path ? Storage::url($post->image_path) : 'https://t3.ftcdn.net/jpg/10/22/24/80/360_F_1022248039_7LDxHRi3Mlt9BK3wzLBUGZp9XAO1gt2s.jpg' }}" id="imgPreview"  alt="" class="w-full h-100 object-cover rounded object-centermb-6">
 
                     <div class="absolute top-8 right-8">
                         <label class="text-black bg-white px-4 py-2 rounded-lg cursor-pointer">
-                            Cambiar imagen
+                            Cambiar imagenr
                             <input class="hidden" type="file" name="image" accept="image/*" onchange="preview_image(event, '#imgPreview')">
                         </label>
                     </div>
                 </div>
 
                 <div>
-                    <flux:field class="mb-4">
+                    <flux:field class="mb-4 mt-2">
                         <flux:label>Titulo del post</flux:label>
 
-                        <flux:input name="title" id="title" placeholder="Titulo del post..." oninput="string_to_slug(this.value, '#slug')"  autofocus value="{{ old('title', $post->title) }}"/>
+                        <flux:input name="title" id="title" placeholder="Titulo del post..." :disabled="(bool) $post->published_at" oninput="string_to_slug(this.value, '#slug')"  autofocus value="{{ old('title', $post->title) }}"/>
 
                         <flux:error name="title" />
                     </flux:field>
 
-                    @if(!$post->published_at)
-                       <flux:field class="mb-4">
-                            <flux:label>Slug</flux:label>
-
-                            <flux:input name="slug" id="slug" placeholder="Slug del post..."  autofocus value="{{ old('slug', $post->slug) }}"/>
-
-                            <flux:error name="slug" />
-                        </flux:field>
-                    @endif
-
+                    <flux:field class="mb-4">
+                        <flux:label>Slug</flux:label>
+                        <flux:input name="slug" id="slug" :disabled="$post->published_at"  placeholder="Slug del post..."  autofocus value="{{ old('slug', $post->slug) }}" />
+                        <flux:error name="slug" />
+                        @if($post->published_at)
+                            <span class="text-sm text-gray-500">El slug no se puede modificar una vez que el post ha sido publicado.</span>
+                        @endif
+                    </flux:field>
 
                     <flux:field class="mb-4">
                         <flux:label>Categoías</flux:label>
