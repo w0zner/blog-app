@@ -103,7 +103,16 @@ class PostController extends Controller
                 Storage::disk('public')->delete($post->image_path);
             }
 
-            $validated['image_path'] = Storage::disk('public')->put('posts', $request->image);
+            $extension = $request->image->getClientOriginalExtension();
+            $filename = $post->slug . '.' . $extension;
+
+            while(Storage::disk('public')->exists('posts/' . $filename)) {
+                $filename = $post->slug . '-' . time() . '.' . $extension;
+            }
+
+            $validated['image_path'] = Storage::disk('public')->putFileAs('posts', $request->image, $filename);
+
+            //$validated['image_path'] = Storage::disk('public')->put('posts', $request->image);
         }
 
         $validated['user_id'] = auth()->id();

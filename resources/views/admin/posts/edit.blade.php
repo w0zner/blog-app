@@ -56,9 +56,21 @@
 
                     <div class="absolute top-8 right-8">
                         <label class="text-black bg-white px-4 py-2 rounded-lg cursor-pointer">
-                            Cambiar imagenr
+                            Cambiar imagen
                             <input class="hidden" type="file" name="image" accept="image/*" onchange="preview_image(event, '#imgPreview')">
                         </label>
+
+
+                    </div>
+                    {{-- <div class="absolute bottom-8 right-8">
+                            <a href="{{ Storage::url($post->image_path) }}" download class="text-black bg-white px-4 py-2 rounded-lg cursor-pointer">
+                                Descargar
+                            </a>
+                    </div> --}}
+                    <div class="absolute bottom-8 right-8">
+                        <flux:button href="{{ route('admin.posts.download', $post) }}" icon="arrow-down-tray" as="a">
+                            Descargar
+                        </flux:button>
                     </div>
                 </div>
 
