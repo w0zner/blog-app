@@ -10,10 +10,27 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Laravel\Facades\Image;
+use App\Http\Requests\UpdatePostRequest;
+use App\Jobs\ResizeImage;
+use App\Events\UploadedImage;
+use App\Http\Middleware\IsAdmin;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Support\Facades\Gate;
 
 
-class PostController extends Controller
+class PostController extends Controller //implements HasMiddleware
 {
+
+//    public static function middleware() {
+//         return [
+//             new Middleware('is_admin', only: [ 'edit', 'update', 'destroy', 'publish']),
+//         ];
+//    }
+
+
+
     /**
      * Display a listing of the resource.
      */
@@ -66,6 +83,8 @@ class PostController extends Controller
         /* $tags = $post->tags->pluck('id')->toArray();
         $response = in_array(1, $tags);*/
 
+            Gate::authorize('is_admin');
+
          $categories = Category::all();
          $tags = Tag::all();
 
@@ -75,28 +94,10 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(UpdatePostRequest $request, Post $post)
     {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            /*'slug' => 'required|string|max:255|unique:posts,slug,' . $post->id,*/
-
-            'slug' => [
-                //Rule::unique('posts', 'slug')->ignore($post->id),
-                Rule::requiredIf(function() use ($request, $post) {
-                    return !$post->published_at;
-                }),
-                'string',
-                'max:255',
-                'unique:posts,slug,' . $post->id,
-            ],
-            'image' => 'nullable|image|max:2048',
-            'category_id' => 'required|exists:categories,id',
-            'excerpt' => 'required_if:is_published,1|string',
-            'content' => 'required_if:is_published,1|string',
-            'tags' => 'array',
-            'is_published' => 'boolean',
-        ]);
+        //Llama al form request para validar los datos
+        $validated = $request->validated();
 
         if($request->hasFile('image')) {
             if($post->image_path) {
@@ -111,6 +112,23 @@ class PostController extends Controller
             }
 
             $validated['image_path'] = Storage::disk('public')->putFileAs('posts', $request->image, $filename);
+
+            //Llama al job para redimensionar la imagen
+            //ResizeImage::dispatch($validated['image_path']);
+
+            //Llama al evento para redimensionar la imagen
+            UploadedImage::dispatch($validated['image_path']);
+
+           /*  $upload = $request->file('image');
+            $image = Image::decode($upload)->scale(width: 1200)
+            ->encodeUsingFileExtension($upload->getClientOriginalExtension(), quality: 70);
+
+            Storage::disk('public')->put(
+                'posts/' . $filename,
+                $image
+            );
+
+            $validated['image_path'] = 'posts/' . $filename; */
 
             //$validated['image_path'] = Storage::disk('public')->put('posts', $request->image);
         }

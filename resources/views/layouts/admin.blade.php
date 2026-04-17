@@ -148,10 +148,17 @@
 
         @if ($errors->any())
             <script>
-                Swal.fire({
+                const swalWithBootstrapButtons = Swal.mixin({
+  customClass: {
+    confirmButton: "inline-flex items-center justify-center px-4 py-2 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 border border-transparent rounded-lg font-medium hover:bg-zinc-800 dark:hover:bg-zinc-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-zinc-900 transition-colors mx-2",
+    cancelButton: "btn btn-danger"
+  },
+  buttonsStyling: false
+});
+                swalWithBootstrapButtons.fire({
                     title: 'Oops..',
                     icon: 'error',
-                    html: `<ul class="text-left list-disc list-inside">
+                    html: `<ul  style="list-style-type: none;">
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
                         @endforeach
