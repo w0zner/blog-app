@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use App\Observers\PostObserver;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Facades\Storage;
 
 #[ObservedBy(PostObserver::class)]
 class Post extends Model
@@ -18,6 +20,20 @@ class Post extends Model
         'is_published' => 'boolean',
         'published_at' => 'datetime',
     ];
+/*
+    protected function tittle(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => strtoupper($value),
+        );
+    } */
+
+    protected function image(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->image_path ? Storage::url($this->image_path) : 'https://t3.ftcdn.net/jpg/10/22/24/80/360_F_1022248039_7LDxHRi3Mlt9BK3wzLBUGZp9XAO1gt2s.jpg',
+        );
+    }
 
     public function category()
     {

@@ -6,9 +6,9 @@ use App\Http\Controllers\Admin\PostController;
 use App\Models\Post;
 use Illuminate\Support\Facades\Storage;
 
-Route::get('/', function () {
-    return view('admin.dashboard');
-})->name('dashboard');
+Route::get('/', function () { return view('admin.dashboard');}
+//[HomeController::class, 'index']
+)->name('dashboard');
 
 Route::resource('categories', CategoryController::class);
 

@@ -52,7 +52,7 @@
                 @method('PUT')
 
                 <div class="relative flex justify-center mb-2">
-                    <img src="{{ $post->image_path ? Storage::url($post->image_path) : 'https://t3.ftcdn.net/jpg/10/22/24/80/360_F_1022248039_7LDxHRi3Mlt9BK3wzLBUGZp9XAO1gt2s.jpg' }}" id="imgPreview"  alt="" class="w-full h-100 object-cover rounded object-centermb-6">
+                    <img src="{{ $post->image }}" id="imgPreview"  alt="" class="w-full h-100 object-cover rounded object-centermb-6">
 
                     <div class="absolute top-8 right-8">
                         <label class="text-black bg-white px-4 py-2 rounded-lg cursor-pointer">

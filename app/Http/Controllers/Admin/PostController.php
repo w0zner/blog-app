@@ -83,7 +83,7 @@ class PostController extends Controller //implements HasMiddleware
         /* $tags = $post->tags->pluck('id')->toArray();
         $response = in_array(1, $tags);*/
 
-            Gate::authorize('is_admin');
+            //Gate::authorize('is_admin');
 
          $categories = Category::all();
          $tags = Tag::all();
