@@ -3,7 +3,7 @@
 use App\Models\User;
 
 test('guests are redirected to the login page', function () {
-    $response = $this->get(route('homr'));
+    $response = $this->get(route('home'));
     $response->assertRedirect(route('login'));
 });
 
