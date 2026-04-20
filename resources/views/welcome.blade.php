@@ -7,7 +7,7 @@
                         <img src="{{ $post->image }}" alt="" class="h-72 w-full object-cover object-center rounded">
                         <div class="px-6 py-2">
                              <h2 class="text-2xl font-bold">
-                                <a href="{{ route('admin.posts.show', $post) }}">{{ $post->title }}</a>
+                                <a href="{{ route('posts.show', $post) }}">{{ $post->title }}</a>
                             </h2>
                         </div>
 

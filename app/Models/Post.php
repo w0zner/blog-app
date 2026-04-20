@@ -28,6 +28,11 @@ class Post extends Model
         );
     } */
 
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     protected function image(): Attribute
     {
         return Attribute::make(
