@@ -10,7 +10,15 @@ class PostController extends Controller
     //
     public function show(Post $post)
     {
-        //return $post;
-        return view('posts.show', compact('post'));
+        $relatedPosts = Post::where('id', '!=', $post->id)
+            ->where('is_published', true)
+            ->whereHas('tags', function ($query) use ($post) {
+                $query->whereIn('tags.id', $post->tags->pluck('id'));
+            })
+            ->orWhere('category_id', $post->category_id)
+            ->limit(4)
+            ->get();
+        
+        return view('posts.show', compact('post', 'relatedPosts'));
     }
 }
