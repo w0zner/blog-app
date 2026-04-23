@@ -15,9 +15,25 @@ class PostController extends Controller
             ->whereHas('tags', function ($query) use ($post) {
                 $query->whereIn('tags.id', $post->tags->pluck('id'));
             })
-            ->orWhere('category_id', $post->category_id)
-            ->limit(4)
+            ->withCount(['tags' => function ($query) use ($post) {
+                $query->whereIn('tags.id', $post->tags->pluck('id'));
+            }])
+            ->orderBy('tags_count', 'desc')
+            ->orderBy('published_at', 'desc')
+            ->take(4)
             ->get();
+
+            if($relatedPosts->count() < 4) {
+                $relatedPosts2 = Post::where('id', '!=', $post->id)
+                    ->where('is_published', true)
+                    ->where('category_id', $post->category_id)
+                    ->whereNotIn('id', $relatedPosts->pluck('id'))
+                    ->orderBy('published_at', 'desc')
+                    ->take(4 - $relatedPosts->count())
+                    ->get();
+
+                    $relatedPosts = $relatedPosts->merge($relatedPosts2);
+            }
         
         return view('posts.show', compact('post', 'relatedPosts'));
     }
