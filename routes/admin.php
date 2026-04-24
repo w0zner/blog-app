@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Models\Post;
 use Illuminate\Support\Facades\Storage;
 
@@ -22,3 +23,5 @@ Route::get('posts/{post}/download', function (Post $post) {
 })->name('posts.download');
 
 Route::resource('permissions', PermissionController::class);
+
+Route::resource('roles', RoleController::class);

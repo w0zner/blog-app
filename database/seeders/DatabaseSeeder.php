@@ -31,6 +31,6 @@ class DatabaseSeeder extends Seeder
 
         Post::factory(50)->create();
 
-        $this->call(PermissionSeeder::class);
+        $this->call([PermissionSeeder::class, RoleSeeder::class]);
     }
 }

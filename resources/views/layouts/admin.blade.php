@@ -48,6 +48,9 @@
                     <flux:sidebar.item icon="key" :href="route('admin.permissions.index')" :current="request()->routeIs('admin.permissions.*')" wire:navigate>
                         {{ __('Permisos') }}
                     </flux:sidebar.item>
+                    <flux:sidebar.item icon="user" :href="route('admin.roles.index')" :current="request()->routeIs('admin.roles.*')" wire:navigate>
+                        {{ __('Roles') }}
+                    </flux:sidebar.item>
                 </flux:sidebar.group>
             </flux:sidebar.nav>
 
