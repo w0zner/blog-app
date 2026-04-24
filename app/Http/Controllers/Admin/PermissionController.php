@@ -14,7 +14,7 @@ class PermissionController extends Controller
     public function index()
     {
         $permissions = Permission::all();
-        
+
         return view('admin.permissions.index', compact('permissions'));
     }
 
@@ -31,7 +31,20 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|max:255|unique:permissions,name',
+        ]);
+
+        Permission::create($data);
+
+        session()->flash('swal', [
+            'icon' => 'success',
+            'title' => 'Permiso creado con éxito',
+            'text' => 'El nuevo permiso ha sido agregado.',
+            'theme' => 'auto',
+        ]);
+
+        return redirect()->route('admin.permissions.index');
     }
 
     /**
@@ -55,15 +68,39 @@ class PermissionController extends Controller
      */
     public function update(Request $request, Permission $permission)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|max:255|unique:permissions,name,' . $permission->id,
+        ]);
+
+        $permission->update($data);
+
+        session()->flash('swal', [
+            'icon' => 'success',
+            'title' => 'Permiso actualizado con éxito',
+            'text' => 'Los cambios han sido guardados.',
+            'theme' => 'auto',
+        ]);
+
+        return redirect()->route('admin.permissions.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Permission $permission)
-    {   
+    {
         $permission->delete();
-        return redirect()->route('permissions.index');
+
+        session()->flash('swal-flash', [
+            'position' => 'top-end',
+            'icon' => 'success',
+            'title' => 'Permiso eliminado con éxito',
+            'text' => 'El permiso ha sido eliminado.',
+            'showConfirmButton' => false,
+            'timer' => 1500,
+            'theme' => 'auto',
+        ]);
+
+        return redirect()->route('admin.permissions.index');
     }
 }
