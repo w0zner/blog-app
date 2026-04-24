@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\PostController;
 use App\Models\Post;
 use Illuminate\Support\Facades\Storage;
@@ -19,3 +20,5 @@ Route::resource('posts', PostController::class)/*->middleware('can:is_admin')*/;
 Route::get('posts/{post}/download', function (Post $post) {
     return Storage::disk('public')->download($post->image_path);
 })->name('posts.download');
+
+Route::resource('permissions', PermissionController::class);
