@@ -20,8 +20,15 @@ use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Facades\Gate;
 
 
-class PostController extends Controller //implements HasMiddleware
+class PostController extends Controller implements HasMiddleware
 {
+
+    public static function middleware()
+    {
+        return ['can:manage posts'];
+    }
+
+
 
 //    public static function middleware() {
 //         return [

@@ -36,21 +36,36 @@
 
             <flux:sidebar.nav>
                 <flux:sidebar.group :heading="__('Plataforma')" class="grid">
-                    <flux:sidebar.item icon="home" :href="route('admin.dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
-                        {{ __('Dashboard') }}
-                    </flux:sidebar.item>
-                    <flux:sidebar.item icon="newspaper" :href="route('admin.posts.index')" :current="request()->routeIs('admin.posts.*')" wire:navigate>
-                        {{ __('Posts') }}
-                    </flux:sidebar.item>
-                    <flux:sidebar.item icon="list-bullet" :href="route('admin.categories.index')" :current="request()->routeIs('admin.categories.*')" wire:navigate>
-                        {{ __('Categorías') }}
-                    </flux:sidebar.item>
-                    <flux:sidebar.item icon="key" :href="route('admin.permissions.index')" :current="request()->routeIs('admin.permissions.*')" wire:navigate>
-                        {{ __('Permisos') }}
-                    </flux:sidebar.item>
-                    <flux:sidebar.item icon="user" :href="route('admin.roles.index')" :current="request()->routeIs('admin.roles.*')" wire:navigate>
-                        {{ __('Roles') }}
-                    </flux:sidebar.item>
+                    @can('manage dashboard')
+                        <flux:sidebar.item icon="home" :href="route('admin.dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
+                            {{ __('Dashboard') }}
+                        </flux:sidebar.item>
+                    @endcan
+                    @can('manage posts')
+                        <flux:sidebar.item icon="newspaper" :href="route('admin.posts.index')" :current="request()->routeIs('admin.posts.*')" wire:navigate>
+                            {{ __('Posts') }}
+                        </flux:sidebar.item>
+                    @endcan
+                    @can('manage categories')
+                        <flux:sidebar.item icon="list-bullet" :href="route('admin.categories.index')" :current="request()->routeIs('admin.categories.*')" wire:navigate>
+                            {{ __('Categorías') }}
+                        </flux:sidebar.item>
+                    @endcan
+                    @can('manage permissions')
+                        <flux:sidebar.item icon="key" :href="route('admin.permissions.index')" :current="request()->routeIs('admin.permissions.*')" wire:navigate>
+                            {{ __('Permisos') }}
+                        </flux:sidebar.item>
+                    @endcan
+                    @can('manage roles')
+                        <flux:sidebar.item icon="user" :href="route('admin.roles.index')" :current="request()->routeIs('admin.roles.*')" wire:navigate>
+                            {{ __('Roles') }}
+                        </flux:sidebar.item>
+                    @endcan
+                    @can('manage users')
+                        <flux:sidebar.item icon="user" :href="route('admin.users.index')" :current="request()->routeIs('admin.users.*')" wire:navigate>
+                            {{ __('Users') }}
+                        </flux:sidebar.item>
+                    @endcan
                 </flux:sidebar.group>
             </flux:sidebar.nav>
 
