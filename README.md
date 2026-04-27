@@ -127,7 +127,7 @@ composer run dev
 
 El seeder principal crea un usuario inicial:
 
-- Email: `cesarrodrigoramirez@gmail.com`
+- Email: `usuario.prueba@gmail.com`
 - Contraseña: `12345678`
 
 Nota:
@@ -211,7 +211,6 @@ composer run lint
 
 - Comentarios reales con moderación.
 - Asignación automática de roles a usuarios.
-- Restricción de acceso por permisos en rutas y vistas.
 - Dashboard con métricas.
 - Búsqueda y filtros por categoría o etiqueta.
 - Tests de feature para posts, permisos y roles.
