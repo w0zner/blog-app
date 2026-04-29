@@ -6,6 +6,7 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
+
 # Blog App
 
 Aplicación de blog desarrollada con Laravel 12 para practicar desarrollo web full stack con panel de administración, autenticación, gestión de posts y control de roles y permisos.
